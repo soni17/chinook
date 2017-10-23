@@ -1,0 +1,77 @@
+---------PART 1----------------------
+
+1-Find the albums recorded by the artist Queen.
+
+Artist.where(name: "Queen")
+=> #<ActiveRecord::Relation [#<Artist id: 51, name: "Queen", created_at: "2006-01-08 22:57:01", updated_at: "2014-01-29 22:10:22">]>
+Album.where(artist_id: 51)
+=> #<ActiveRecord::Relation [#<Album id: 36, artist_id: 51, title: "Greatest Hits II", created_at: "2008-01-30 14:00:12", updated_at: "2014-01-29 22:14:02">, #<Album id: 185, artist_id: 51, title: "Greatest Hits I", created_at: "2007-12-29 12:02:13", updated_at: "2014-01-29 22:14:02">, #<Album id: 186, artist_id: 51, title: "News Of The World", created_at: "2010-06-23 20:50:06", updated_at: "2014-01-29 22:14:02">]>
+
+
+
+
+2-Count how many tracks belong to the media type "Protected MPEG-4 video file".
+
+MediaType.where(name: "Protected MPEG-4 video file")
+=> #<ActiveRecord::Relation [#<MediaType id: 3, name: "Protected MPEG-4 video file", created_at: "2007-12-07 13:17:17", updated_at: "2014-01-29 22:14:22">]>
+Track.where(media_type_id:3).count
+=> 214
+
+
+3-Find the genre with the name "Hip Hop/Rap".
+
+Genre.find_by(name: "Hip Hop/Rap")
+=> #<Genre id: 17, name: "Hip Hop/Rap", created_at: "2013-01-20 02:04:31", updated_at: "2014-01-29 22:14:08">
+
+
+
+4-Count how many tracks belong to the "Hip Hop/Rap" genre
+
+Track.where(genre_id:17).count
+=> 35
+
+
+5-Find the total amount of time required to listen to all the tracks in the database.
+
+Track.sum(:milliseconds)
+=> 1378575827
+
+
+
+6-Find the highest price of any track that has the media type "MPEG audio file".
+
+Track.where(media_type_id:3).maximum(:unit_price)
+=> #<BigDecimal:55b00bda01b8,'0.199E1',18(18)>
+
+
+7-Find the name of the most expensive track that has the media type "MPEG audio file".
+
+Track.select(:name).where(media_type_id:3).order(unit_price: :desc).first
+=> #<Track id: nil, name: "Run!">
+
+
+8-Find the 2 oldest artists.
+
+Artist.order(created_at: :desc).first(2)
+=> [#<Artist id: 187, name: "Los Hermanos", created_at: "2014-01-17 12:58:54", updated_at: "2014-01-29 22:10:22">, #<Artist id: 41, name: "Elis Regina", created_at: "2014-01-07 04:35:27", updated_at: "2014-01-29 22:10:22">]
+
+
+9-Find the least expensive track that has the genre "Electronica/Dance".
+
+Genre.where(name: "Electronica/Dance")
+=> #<ActiveRecord::Relation [#<Genre id: 15, name: "Electronica/Dance", created_at: "2008-05-25 12:13:42", updated_at: "2014-01-29 22:14:08">]>
+Track.select(:name).where(genre_id:15).order(unit_price: :desc).first
+=> #<Track id: nil, name: "Instinto Colectivo">
+
+
+10-Find all "MPEG autio file" tracks in the genre "Electronica/Dance". 
+
+MediaType.where(name: "MPEG audio file")
+=> #<ActiveRecord::Relation [#<MediaType id: 1, name: "MPEG audio file", created_at: "2006-11-24 08:21:33", updated_at: "2014-01-29 22:14:22">]>
+Track.where(genre_id:15).where(media_type_id:1)
+
+=> #<ActiveRecord::Relation [#<Track id: 3319, album_id: 259, genre_id: 15, media_type_id: 1, name: "Instinto Colectivo", composer: nil, milliseconds: 300564, bytes: 12024875, unit_price: #<BigDecimal:55b00b629f10,'0.99E0',9(18)>, created_at: "2004-09-27 22:40:29", updated_at: "2014-01-29 22:15:04">, #<Track id: 3320, album_id: 259, genre_id: 15, media_type_id: 1, name: "Chapa o Coco", composer: nil, milliseconds: 143830, bytes: 5755478, unit_price: #<BigDecimal:55b00b628b10,'0.99E0',9(18)>, created_at: "2004-09-27 22:40:29", updated_at: "2014-01-29 22:15:04">, #<Track id: 3321, album_id: 259, genre_id: 15, media_type_id: 1, name: "Prostituta", composer: nil, milliseconds: 359000, bytes: 14362307, unit_price: #<BigDecimal:55b00b627440,'0.99E0',9(18)>, created_at: "2004-09-27 22:40:29", updated_at: "2014-01-29 22:15:04">, #<Track id: 3322, album_id: 259, genre_id: 15, media_type_id: 1, name: "Eu So Queria Sumir", composer: nil, milliseconds: 269740, bytes: 10791921, unit_price: #<BigDecimal:55b00b625d98,'0.99E0',9(18)>, created_at: "2004-09-27 22:40:29", updated_at: "2014-01-29 22:15:04">, #<Track id: 3323, album_id: 259, genre_id: 15, media_type_id: 1, name: "Tres Reis", composer: nil, milliseconds: 304143, bytes: 12168015, unit_price: #<BigDecimal:55b00b61bbe0,'0.99E0',9(18)>, created_at: "2004-09-27 22:40:29", updated_at: "2014-01-29 22:15:04">, #<Track id: 3324, album_id: 259, genre_id: 15, media_type_id: 1, name: "Um Lugar ao Sol", composer: nil, milliseconds: 212323, bytes: 8495217, unit_price: #<BigDecimal:55b00b619ef8,'0.99E0',9(18)>, created_at: "2004-09-27 22:40:29", updated_at: "2014-01-29 22:15:04">, #<Track id: 3325, album_id: 259, genre_id: 15, media_type_id: 1, name: "Batalha Naval", composer: nil, milliseconds: 285727, bytes: 11431382, unit_price: #<BigDecimal:55b00b60fcc8,'0.99E0',9(18)>, created_at: "2004-09-27 22:40:29", updated_at: "2014-01-29 22:15:04">, #<Track id: 3327, album_id: 259, genre_id: 15, media_type_id: 1, name: "O Misterio do Samba", composer: nil, milliseconds: 226142, bytes: 9047970, unit_price: #<BigDecimal:55b00b60e3a0,'0.99E0',9(18)>, created_at: "2004-09-27 22:40:29", updated_at: "2014-01-29 22:15:04">, #<Track id: 3328, album_id: 259, genre_id: 15, media_type_id: 1, name: "Armadura", composer: nil, milliseconds: 232881, bytes: 9317533, unit_price: #<BigDecimal:55b00b60c550,'0.99E0',9(18)>, created_at: "2004-09-27 22:40:29", updated_at: "2014-01-29 22:15:04">, #<Track id: 3329, album_id: 259, genre_id: 15, media_type_id: 1, name: "Na Ladeira", composer: nil, milliseconds: 221570, bytes: 8865099, unit_price: #<BigDecimal:55b00b5fe338,'0.99E0',9(18)>, created_at: "2004-09-27 22:40:29", updated_at: "2014-01-29 22:15:04">, ...]>
+
+
+
+
